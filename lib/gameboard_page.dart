@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sudoku/widgets/endgame_widget.dart';
+import 'package:sudoku/widgets/scoreboard_modal.dart';
 import 'package:sudoku/widgets/sudoku_grid.dart';
 import 'package:sudoku/widgets/welcome_widget.dart';
 import 'gameboard_controller.dart';
@@ -70,7 +71,7 @@ class GameboardPage extends StatelessWidget {
                           Column(
                             children: [
                               Text(
-                                'Dificuldade: ${controller.selectedDifficulty.toString().split('.').last}',
+                                'Nível: ${controller.selectedDifficulty.toString().split('.').last}',
                                 style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w400,
@@ -177,6 +178,12 @@ class GameboardPage extends StatelessWidget {
                     onNameChanged: controller.setPlayerName,
                     onDifficultyChanged: controller.setDifficulty,
                     onStartGame: controller.startGame,
+                    onViewScoreboard: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => const ScoreboardModal(),
+                      );
+                    },
                   );
                 }
               },

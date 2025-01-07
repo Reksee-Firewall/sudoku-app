@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sudoku/database_helper.dart';
 import 'package:sudoku_dart/sudoku_dart.dart';
 import 'dart:async';
 import 'package:collection/collection.dart';
@@ -96,10 +97,15 @@ class GameController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void finalizeGame() {
+  void finalizeGame() async {
     _timer?.cancel();
     gameFinished = true;
     gameWon = isPuzzleSolved();
+
+    // Salvar a pontuação no banco de dados após o término do jogo
+    await saveScore(playerName, gameWon ? 1 : 0, DateTime.now().toString(),
+        selectedDifficulty);
+
     notifyListeners();
   }
 
@@ -185,5 +191,18 @@ class GameController extends ChangeNotifier {
         notifyListeners();
       }
     }
+  }
+
+  // Método para salvar a pontuação no banco de dados
+  Future<void> saveScore(
+      String name, int result, String date, Level level) async {
+    final score = {
+      'name': name,
+      'result': result,
+      'date': date,
+      'level': level.toString().split('.').last,
+    };
+
+    await DatabaseHelper.instance.insertScore(score);
   }
 }

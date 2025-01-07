@@ -77,7 +77,7 @@ class EndGameWidgetState extends State<EndGameWidget> {
             ),
             const SizedBox(height: 20),
             _buildInfoRow(
-              'Dificuldade',
+              'Nível',
               widget.selectedDifficulty.toString().split('.').last,
             ),
             _buildInfoRow('Tempo', formatElapsedTime(widget.elapsedTime)),
